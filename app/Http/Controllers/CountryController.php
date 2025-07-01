@@ -29,8 +29,27 @@ class CountryController extends BaseApiController
         // return response()->json($countries, 200);
         return $countries;
     }
-    public function update(Request $req) {
-        
+    public function update(Request $req, $id)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $country = Country::where('id', $id)->first();
+            $country->update($validator->validated());
+            return $this->sendResponse($country, 'Country Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
     }
     public function delete(Request $req)
     {
@@ -43,6 +62,5 @@ class CountryController extends BaseApiController
             return response()->json($exception->errorInfo[2], 400);
             // return redirect()->route('pages.programs')->with('error', $exception->errorInfo[2]);
         }
-
     }
 }

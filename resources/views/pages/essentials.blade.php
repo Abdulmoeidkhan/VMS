@@ -6,6 +6,50 @@
 <div id="toast-container" aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3"
     style="z-index: 9999;">
 </div>
+<span id="alert-comp"></span>
+
+<div class="mb-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3">
+                <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="ModalFormLabel-edit-modal" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content text-capitalize">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="ModalFormLabel-edit-modal"></h5>
+                            </div>
+                            <div class="modal-body">
+                                <form id="edit-form" name="edit-form">
+                                    <div class="form-group">
+                                        <label for="name" class="col-form-label">
+                                            Name
+                                        </label>
+                                        <input type="text" name='name' class="form-control"
+                                            id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="display_name" class="col-form-label">
+                                            Display Name
+                                        </label>
+                                        <input type="text" name='display_name' class="form-control"
+                                            id="display_name">
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @if(session()->get('user')->roles[0]->name === "admin" || session()->get('user')->roles[0]->name === "snseaAdmin")
 <div class="row">
@@ -36,8 +80,7 @@
                             <th data-filter-control="input" data-field="name" data-sortable="true">Country Name</th>
                             <th data-filter-control="input" data-field="display_name" data-sortable="true">Country
                                 Display Name</th>
-                            <th data-filter-control="input" data-field="operate" data-formatter="operateFormatter"
-                                data-events="operateCountry">
+                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -111,7 +154,7 @@
                             <th data-filter-control="input" data-field="name" data-sortable="true">Group Name</th>
                             <th data-filter-control="input" data-field="display_name" data-sortable="true">Group Display
                                 Name</th>
-                            <th data-filter-control="input" data-field="group_uid" data-formatter="operateFormatter"
+                            <th data-filter-control="input" data-field="group_uid" data-formatter="operateEdit"
                                 data-events="operateGroup">
                                 Actions</th>
                         </tr>
@@ -258,7 +301,7 @@
         <div class="card-body p-4">
             <h5 class="card-title fw-semibold mb-4">Staff Category</h5>
             <div class="table-responsive">
-                <table id="table1" data-filter-control="true" data-filter-control-multiple-search="true"
+                <table id="table7" data-filter-control="true" data-filter-control-multiple-search="true"
                     data-filter-control-multiple-search-delimiter="," data-show-refresh="true"
                     data-show-pagination-switch="true" data-click-to-select="true" data-toggle="table"
                     data-url="{{route('api.staffCategory.index')}}" data-pagination="true" data-show-toggle="true"
@@ -288,11 +331,238 @@
 
 @include("layouts.tableFoot")
 <script>
+    // const $table1 = $('#table1'),
+    //     $table2 = $('#table2'),
+    //     $table3 = $('#table3'),
+    //     $table4 = $('#table4'),
+    //     $table5 = $('#table5'),
+    //     $table6 = $('#table6'),
+    //     $table7 = $('#table7');
+
+    // window.operateCountry = {
+    // [`click .remove`]: (e, value, row) => {
+    // axios.post('{{route("request.deleteCountry")}}', {
+    //         id:[row.id]
+    //     }).then(
+    //         function(response) {
+    //             console.log(response)
+    //             showDeleteToast(response.data.message)
+    //         }).catch(function(error) {
+    //             console.log(error);
+    //         })
+    // $table1.bootstrapTable('refresh');
+    //     }
+    // }
+
+    window.operateCity = {
+        [`click .remove`]: (e, value, row) => {
+            axios.post('{{route("request.deleteCity")}}', {
+                id: [row.id]
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table2.bootstrapTable('refresh');
+        }
+    }
+
+    window.operateGroup = {
+        [`click .remove`]: (e, value, row) => {
+            axios.post('{{route("request.deleteGroup")}}', {
+                id: value
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table3.bootstrapTable('refresh');
+        }
+    }
+
+
+    window.operatePlans = {
+        [`click .remove`]: (e, value, row) => {
+            axios.post('{{route("request.deleteProgram")}}', {
+                id: value
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table4.bootstrapTable('refresh');
+        }
+    }
+    window.operateCoupons = {
+        [`click .remove`]: (e, value, row) => {
+            axios.post('{{route("request.deleteCoupon")}}', {
+                id: value
+            }, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table5.bootstrapTable('refresh');
+        }
+    }
+
+    window.operateInvitees = {
+        [`click .remove`]: (e, value, row) => {
+            let route = '{{route("api.invitees.destroy", ":id")}}'.replace(':id', row.uid);
+            axios.delete(route, {
+                id: value
+            }, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table5.bootstrapTable('refresh');
+        }
+    }
+
+    window.operateStaffCat = {
+        [`click .remove`]: (e, value, row) => {
+            console.log(row)
+            let route = '{{route("api.staffCategory.destroy", ":id")}}'.replace(':id', row.id);
+            axios.delete(route, {
+                id: value
+            }, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
+            // $table6.bootstrapTable('refresh');
+        }
+    }
+
+    function operateSerial(value, row, index) {
+        return index + 1;
+    }
+
+    // Axios Request For EDIT Start
+    const editRequest = (event, route, tableId) => {
+        console.log(tableId);
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const formValues = {};
+
+        // Process each entry in FormData
+        formData.forEach((value, key) => {
+            // Check if the key already exists in formValues
+            if (formValues[key]) {
+                // If the key already exists, ensure it is an array and add the new value
+                if (Array.isArray(formValues[key])) {
+                    formValues[key].push(value);
+                } else {
+                    formValues[key] = [formValues[key], value];
+                }
+            } else {
+                // If the key does not exist, simply add it
+                formValues[key] = value;
+            }
+        });
+
+        const lengthOfForm = Object.keys(formValues).length; // Length Of Values getting from from 
+        axios.post(route, formValues, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response);
+                document.getElementById('alert-comp').innerHTML = `
+                <div class="alert alert-${response.data.success ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
+                    <strong>${response.data.message}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+                if (response.data.success) {
+                    event.target.reset();
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById('alert-comp').innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>An error occurred while processing your request.</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+            })
+            .finally(() => {
+                console.log(tableId);
+                console.log('Request processing completed.');
+                // $(`#${tableId}`).bootstrapTable('refresh');
+                // $(document).ready(function() {
+                //     $(`#${tableId}`).bootstrapTable();
+                // });
+                // if ($.fn.bootstrapTable) {
+                //     $(`#${tableId}`).bootstrapTable('refresh');
+                // } else {
+                //     console.error('bootstrapTable is not available on this element.');
+                // }
+            });
+    }
+
+    // Axios Request For EDIT End
+
+
+
+    // Modal for editing Start 
+    function openEditModal(id, name, display_name, e) {
+        let refreshFunction = $(`#${e.closest('table').id}`).bootstrapTable('refresh');
+        let route = '';
+        switch (e.closest('table').id) {
+            case 'table1':
+                route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
+                break;
+                // case value:
+
+                //     break;
+
+            default:
+                break;
+        }
+        document.getElementById('edit-form').setAttribute('onsubmit', `editRequest(event, '${route}','${refreshFunction}')`);
+        // console.log(e.closest('table').id);
+        // Set values
+        document.getElementById('name').value = name;
+        document.getElementById('display_name').value = display_name;
+
+        // Show modal
+        const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
+        editModal.show();
+    }
+    // Modal for editing End 
+
+
     function showDeleteToast(message) {
-    // Create unique ID for the toast
-    const toastId = `toast-${Date.now()}`;
-    // Toast HTML
-    const toastHtml = `
+        // Create unique ID for the toast
+        const toastId = `toast-${Date.now()}`;
+        // Toast HTML
+        const toastHtml = `
         <div id="${toastId}" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
             <div class="d-flex">
                 <div class="toast-body">
@@ -302,24 +572,22 @@
             </div>
         </div>
     `;
-    // Append toast to container
-    const container = document.getElementById('toast-container');
-    container.innerHTML="";
-    container.insertAdjacentHTML('beforeend', toastHtml);
+        // Append toast to container
+        const container = document.getElementById('toast-container');
+        container.innerHTML = "";
+        container.insertAdjacentHTML('beforeend', toastHtml);
 
-    // Initialize and show the toast
-    const toastElement = document.getElementById(toastId);
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
+        // Initialize and show the toast
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
 
-    // Remove toast from DOM after hidden
-    toastElement.addEventListener('hidden.bs.toast', () => {
-        toastElement.remove();
-    });
-}
+        // Remove toast from DOM after hidden
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
+        });
+    }
 
-
-    const $table1 = $('#table1'),$table2 = $('#table2'),$table3 = $('#table3'),$table4 = $('#table4'),$table5 = $('#table5'),$table6 = $('#table6');
 
     function operateCities(value, row, index) {
         if (value) {
@@ -329,138 +597,19 @@
 
 
 
-    function operateFormatter (value, row, index) {
-        return[
-        `<a class='remove btn btn-badar' href='javascript:void(0)' title='Remove'><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></a>`
-      ]
+    function operateFormatter(value, row, index) {
+        return [
+            `<a class='remove btn btn-badar' href='javascript:void(0)' title='Remove'><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></a>`
+        ]
     }
 
-    window.operateCountry={   
-          [`click .remove`]: (e, value, row) => {
-            // axios.post('{{route("request.deleteCountry")}}', {
-            //         id:[row.id]
-            //     }).then(
-            //         function(response) {
-            //             console.log(response)
-            //             showDeleteToast(response.data.message)
-            //         }).catch(function(error) {
-            //             console.log(error);
-            //         })
-            // $table1.bootstrapTable('refresh');
-        }
+    function operateEdit(value, row, index) {
+        // console.log(row);
+        return [
+            `<button type="button" class="btn btn-outline-success" onclick="openEditModal('${row.id}','${row.name}','${row.display_name}',this)"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></button>`
+        ]
     }
 
-    window.operateCity={
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteCity")}}', {
-                    id:[row.id]
-                }).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table2.bootstrapTable('refresh');
-        }
-    }
-
-    window.operateGroup={
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteGroup")}}', {
-                    id:value
-                }).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table3.bootstrapTable('refresh');
-        }
-    }
-         
-
-    window.operatePlans={
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteProgram")}}', {
-                    id:value
-                }).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table4.bootstrapTable('refresh');
-        }
-    }
-    window.operateCoupons={
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteCoupon")}}', {
-                    id:value
-                }, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }
-            ).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table5.bootstrapTable('refresh');
-        }
-    }
-    
-    window.operateInvitees={
-        [`click .remove`]: (e, value, row) => {
-            let route= '{{route("api.invitees.destroy", ":id")}}'.replace(':id', row.uid);
-            axios.delete(route, {
-                    id:value
-                }, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }
-            ).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table5.bootstrapTable('refresh');
-        }
-    }
-
-    window.operateStaffCat={
-        [`click .remove`]: (e, value, row) => {
-            console.log(row)
-            let route= '{{route("api.staffCategory.destroy", ":id")}}'.replace(':id', row.id);
-            axios.delete(route, {
-                    id:value
-                }, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }
-            ).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
-            $table5.bootstrapTable('refresh');
-        }
-    }
-
-    function operateSerial(value, row, index) {
-        return index + 1;
-    }
 
     // function operatePlans(value, row, index) {
     //     if (value) {
@@ -477,7 +626,6 @@
     //         // ].join(``)
     //     }
     // }
-
 </script>
 @endsection
 @endauth

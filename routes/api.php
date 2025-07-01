@@ -65,6 +65,7 @@ Route::group(['auth' => 'sanctum'], function () {
 
     // Country API Start
     Route::post('/addCountry', [CountryController::class, 'create'])->name('request.addCountry');
+    Route::post('/updateCountry/{id}', [CountryController::class, 'update'])->name('request.updateCountry');
     Route::get('/countryData', [CountryController::class, 'read'])->name('request.countryData');
     Route::post('/deleteCountry', [CountryController::class, 'delete'])->name('request.deleteCountry');
     // Country API End

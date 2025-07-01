@@ -138,89 +138,89 @@
                                                 class="form-control" id="head_contact"
                                                 placeholder="Company Contact Number"
                                                 value="{{isset($organization) ? $organization->head_contact : ''}}"
-                                                minlength='0' maxlength='14' onchange="isContact('contact')"
-                                                title="14 DIGIT PHONE NUMBET" data-inputmask="'mask': '+99-9999999999'"
-                                                required />
-                                        </div>
-                                    </div> --}}
-                                    <div class="col-md-3">
-                                        <div class="mb-3">
-                                            <label for="ref_no" class="form-label">Company Reference No.</label>
-                                            <input name="ref_no" type="text" minlength='4' maxlength='11'
-                                                class="form-control" id="ref_no" placeholder="Company Reference Number"
-                                                value="{{isset($organization) ? $organization->head_contact : ''}}"
-                                                minlength='4' maxlength='11' />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="mb-3">
-                                            <label for="allowed_quantity" class="form-label">Staff Quantity</label>
-                                            <input name="allowed_quantity" type="number" class="form-control"
-                                                id="allowed_quantity" placeholder="5"
-                                                value="{{isset($organization) ? $organization->allowed_quantity : ''}}"
-                                                title="Staff Quanity" min="1" max="2000" maxlength="3" required />
-                                        </div>
-                                    </div>
+                                    minlength='0' maxlength='14' onchange="isContact('contact')"
+                                    title="14 DIGIT PHONE NUMBET" data-inputmask="'mask': '+99-9999999999'"
+                                    required />
                                 </div>
-                                <div class="row"></div>
-                                <br />
-                                <br />
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="head_name" class="form-label">Company Owner Name</label>
-                                            <input name="head_name" type="text" class="form-control" id="head_name"
-                                                placeholder="Company Owner Name"
-                                                value="{{isset($organization) ? $organization->head_name : ''}}"
-                                                required />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="head_contact" class="form-label">Company Owner
-                                                Contact</label>
-                                            <input name="head_contact" type="tel" class="form-control" id="head_contact"
-                                                placeholder="Company Owner Contact"
-                                                value="{{isset($organization) ? $organization->head_contact: ''}}"
-                                                pattern="\d{11}" required />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="head_email" class="form-label">Company Owner
-                                                Email</label>
-                                            <input name="head_email" type="text" class="form-control" id="head_email"
-                                                placeholder="Company Owner Email"
-                                                value="{{isset($organization) ? $organization->head_email  : ''}}"
-                                                required {{isset($organization) ? 'disabled' : '' }} />
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="mb-3">
-                                            <input type="submit" name="submitMore"
-                                                class="btn {{isset($organization->uid )?'btn-primary':'btn-success'}}"
-                                                value="{{isset($organization->uid)?'Update Organization & More':'Add Organization & More'}}" />
-                                        </div>
-                                    </div>
+                            </div> --}}
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="ref_no" class="form-label">Company Reference No.</label>
+                                    <input name="ref_no" type="text" minlength='4' maxlength='11'
+                                        class="form-control" id="ref_no" placeholder="Company Reference Number"
+                                        value="{{isset($organization) ? $organization->head_contact : ''}}"
+                                        minlength='4' maxlength='11' />
                                 </div>
                             </div>
-                        </fieldset>
-                    </form>
-
+                            <div class="col-md-2">
+                                <div class="mb-3">
+                                    <label for="allowed_quantity" class="form-label">Staff Quantity</label>
+                                    <input name="allowed_quantity" type="number" class="form-control"
+                                        id="allowed_quantity" placeholder="5"
+                                        value="{{isset($organization) ? $organization->allowed_quantity : ''}}"
+                                        title="Staff Quanity" min="1" max="2000" maxlength="3" required />
+                                </div>
+                            </div>
+                </div>
+                <div class="row"></div>
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="head_name" class="form-label">Company Owner Name</label>
+                            <input name="head_name" type="text" class="form-control" id="head_name"
+                                placeholder="Company Owner Name"
+                                value="{{isset($organization) ? $organization->head_name : ''}}"
+                                required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="head_contact" class="form-label">Company Owner
+                                Contact</label>
+                            <input name="head_contact" type="tel" class="form-control" id="head_contact"
+                                placeholder="Company Owner Contact"
+                                value="{{isset($organization) ? $organization->head_contact: ''}}"
+                                pattern="\d{11}" required />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label for="head_email" class="form-label">Company Owner
+                                Email</label>
+                            <input name="head_email" type="text" class="form-control" id="head_email"
+                                placeholder="Company Owner Email"
+                                value="{{isset($organization) ? $organization->head_email  : ''}}"
+                                required {{isset($organization) ? 'disabled' : '' }} />
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <input type="submit" name="submitMore"
+                                class="btn {{isset($organization->uid )?'btn-primary':'btn-success'}}"
+                                value="{{isset($organization->uid)?'Update Organization & More':'Add Organization & More'}}" />
+                        </div>
+                    </div>
                 </div>
             </div>
+            </fieldset>
+            </form>
+
         </div>
     </div>
 </div>
+</div>
+</div>
 <script>
-    const sendingPostRequest = (event, route,type='post') => {
+    const sendingPostRequest = (event, route, type = 'post') => {
         event.preventDefault();
-                const formData = new FormData(event.target);
+        const formData = new FormData(event.target);
         const formValues = {};
 
         // Process each entry in FormData
@@ -240,23 +240,23 @@
         });
 
         const lengthOfForm = Object.keys(formValues).length; // Length Of Values getting from from 
-    if(type=='post'){
-    axios.post(route, formValues)
-    .then(response => {
-            console.log(response);
-            document.getElementById('alert-comp').innerHTML = `
+        if (type == 'post') {
+            axios.post(route, formValues)
+                .then(response => {
+                    console.log(response);
+                    document.getElementById('alert-comp').innerHTML = `
             <div class="alert alert-${response.data.success ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
                 <strong>${response.data.message}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`;
-                
-                if (response.data.success) {
-                    event.target.reset();
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                document.getElementById('alert-comp').innerHTML = `
+
+                    if (response.data.success) {
+                        event.target.reset();
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    document.getElementById('alert-comp').innerHTML = `
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>An error occurred while processing your request.</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -265,23 +265,22 @@
                 .finally(() => {
                     console.log('Request processing completed.');
                 });
-            }
-            else{
-                axios.put(route, formValues).then(response => {
-            console.log(response);
-            document.getElementById('alert-comp').innerHTML = `
+        } else {
+            axios.put(route, formValues).then(response => {
+                    console.log(response);
+                    document.getElementById('alert-comp').innerHTML = `
             <div class="alert alert-${response.data.success ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
                 <strong>${response.data.message}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`;
-                
-                if (!response.data.success) {
-                    event.target.reset();
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                document.getElementById('alert-comp').innerHTML = `
+
+                    if (!response.data.success) {
+                        event.target.reset();
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    document.getElementById('alert-comp').innerHTML = `
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>An error occurred while processing your request.</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -290,8 +289,8 @@
                 .finally(() => {
                     console.log('Request processing completed.');
                 });
-            }
         }
+    }
 </script>
 @endsection
 @endauth
