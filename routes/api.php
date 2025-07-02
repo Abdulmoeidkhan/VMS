@@ -72,6 +72,7 @@ Route::group(['auth' => 'sanctum'], function () {
 
     // City API Start
     Route::post('/addCity', [CitiesController::class, 'create'])->name('request.addCity');
+    Route::post('/updateCity/{id}', [CitiesController::class, 'update'])->name('request.updateCity');
     Route::get('/cityData', [CitiesController::class, 'read'])->name('request.cityData');
     Route::post('/deleteCity', [CitiesController::class, 'delete'])->name('request.deleteCity');
     // City API End

@@ -29,15 +29,36 @@ class CitiesController extends BaseApiController
         // return response()->json($countries, 200);
         return $cities;
     }
-    public function update(Request $req) {}
+    public function update(Request $req, $id)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|max:255',
+            'display_name' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $city = Cities::where('id', $id)->first();
+            $city->update($validator->validated());
+            return $this->sendResponse($city, 'City Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
+    }
     public function delete(Request $req)
     {
 
         try {
             $deleteCities = Cities::where('id', $req->id)->delete();
             return $this->sendResponse($deleteCities, 'City Deleted successfully.');
-            return response()->json("Country Deleted Successfully", 200);
-            // return  redirect()->route('pages.essentials')->with('message', 'Country Deleted Successfully');
+            return response()->json("City Deleted Successfully", 200);
+            // return  redirect()->route('pages.essentials')->with('message', 'City Deleted Successfully');
         } catch (\Illuminate\Database\QueryException $exception) {
             return response()->json($exception->errorInfo[2], 400);
             // return redirect()->route('pages.programs')->with('error', $exception->errorInfo[2]);

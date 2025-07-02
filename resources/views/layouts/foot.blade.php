@@ -14,8 +14,7 @@
 </script> -->
 <!--End of Tawk.to Script-->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
-<script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
-<script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+
 <script src="{{asset('assets/js/sidebarmenu.js')}}"></script>
 <script src="{{asset('assets/js/app.min.js')}}"></script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js" type="text/javascript"></script>

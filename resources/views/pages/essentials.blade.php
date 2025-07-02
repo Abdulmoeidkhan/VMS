@@ -25,21 +25,20 @@
                                         <label for="name" class="col-form-label">
                                             Name
                                         </label>
-                                        <input type="text" name='name' class="form-control"
-                                            id="name">
+                                        <input type="text" name='name' class="form-control" id="name">
                                     </div>
                                     <div class="form-group">
                                         <label for="display_name" class="col-form-label">
                                             Display Name
                                         </label>
-                                        <input type="text" name='display_name' class="form-control"
-                                            id="display_name">
+                                        <input type="text" name='display_name' class="form-control" id="display_name">
                                     </div>
                                     <br />
                                     <div class="form-group">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            data-bs-dismiss="modal">Update</button>
                                     </div>
                                 </form>
                             </div>
@@ -117,8 +116,7 @@
                             <th data-filter-control="input" data-field="name" data-sortable="true">City Name</th>
                             <th data-filter-control="input" data-field="display_name" data-sortable="true">City Display
                                 Name</th>
-                            <th data-filter-control="input" data-field="operate" data-formatter="operateFormatter"
-                                data-events="operateCity">
+                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -154,8 +152,7 @@
                             <th data-filter-control="input" data-field="name" data-sortable="true">Group Name</th>
                             <th data-filter-control="input" data-field="display_name" data-sortable="true">Group Display
                                 Name</th>
-                            <th data-filter-control="input" data-field="group_uid" data-formatter="operateEdit"
-                                data-events="operateGroup">
+                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -315,8 +312,7 @@
                             <th data-filter-control="input" data-field="display_name" data-sortable="true">Staff
                                 Category
                                 Display Name</th>
-                            <th data-filter-control="input" data-field="operate" data-formatter="operateFormatter"
-                                data-events="operateStaffCat">
+                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -463,10 +459,11 @@
         return index + 1;
     }
 
-    // Axios Request For EDIT Start
-    const editRequest = (event, route, tableId) => {
-        console.log(tableId);
-        event.preventDefault();
+
+        // Axios Request For EDIT Start
+        const editRequest = (event, route,tableId) => {
+            event.preventDefault();
+            console.log(tableId);
         const formData = new FormData(event.target);
         const formValues = {};
 
@@ -512,40 +509,36 @@
                 </div>`;
             })
             .finally(() => {
-                console.log(tableId);
                 console.log('Request processing completed.');
-                // $(`#${tableId}`).bootstrapTable('refresh');
-                // $(document).ready(function() {
-                //     $(`#${tableId}`).bootstrapTable();
-                // });
-                // if ($.fn.bootstrapTable) {
-                //     $(`#${tableId}`).bootstrapTable('refresh');
-                // } else {
-                //     console.error('bootstrapTable is not available on this element.');
-                // }
+                $(`#${tableId}`).bootstrapTable('refresh');
             });
     }
-
     // Axios Request For EDIT End
-
 
 
     // Modal for editing Start 
     function openEditModal(id, name, display_name, e) {
-        let refreshFunction = $(`#${e.closest('table').id}`).bootstrapTable('refresh');
         let route = '';
-        switch (e.closest('table').id) {
+        let tableId = e.closest('table').id;
+
+        switch (tableId) {
             case 'table1':
                 route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
                 break;
-                // case value:
-
-                //     break;
-
+            case 'table2':
+                route = '{{route("request.updateCity", ":id")}}'.replace(':id', id);
+                break;
+            case 'table3':
+                route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
+                break;
+            case 'table7':
+                route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
+                break;
             default:
                 break;
         }
-        document.getElementById('edit-form').setAttribute('onsubmit', `editRequest(event, '${route}','${refreshFunction}')`);
+
+        document.getElementById('edit-form').setAttribute('onsubmit', `editRequest(event, '${route}','${tableId}')`);
         // console.log(e.closest('table').id);
         // Set values
         document.getElementById('name').value = name;
@@ -556,6 +549,8 @@
         editModal.show();
     }
     // Modal for editing End 
+
+    
 
 
     function showDeleteToast(message) {
@@ -627,5 +622,11 @@
     //     }
     // }
 </script>
+<script>
+    $(document).ready(function () {
+    $('#table1').bootstrapTable('refresh');
+  });
+</script>
+
 @endsection
 @endauth

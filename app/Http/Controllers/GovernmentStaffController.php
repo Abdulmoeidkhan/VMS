@@ -47,7 +47,7 @@ class GovernmentStaffController extends BaseApiController
             'designation' => 'required|string|max:255',
             'identity' => 'required|string|max:16',
             'address' => 'string|max:255',
-            'contact' => 'required|string|regex:/^\d{11,20}$/',
+            'contact' => 'required|string|regex:/^\d{9,20}$/',
             'invited_by' => 'required|integer',
             'staff_category' => 'required|integer',
             'country' => 'required|string|max:30',

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('government_staff', function (Blueprint $table) {
             $table->id();
             $table->uuid('uid')->unique();
-            $table->uuid('ranks_uid');
+            $table->uuid('rank');
             $table->string('name')->unique();
             $table->string('designation');
             $table->string('identity')->unique();
