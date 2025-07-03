@@ -22,8 +22,13 @@ class ProgramController extends BaseApiController
         return $program;
     }
 
-    public function addProgramPages()
+    public function addProgramPages(Request $req, ?string $uid)
     {
+        if (isset($uid)) {
+            $program = Program::where('program_uid', $uid)->first();
+            // return $program;
+            return view("pages.addProgram", ['program' => $program]);
+        }
         return view("pages.addProgram");
     }
 
@@ -48,23 +53,32 @@ class ProgramController extends BaseApiController
             // General database error
             return $this->sendError('Database Error.', $ex->getMessage());
         }
+    }
 
+    public function updateProgram(Request $req, string $uid)
+    {
+        $validator = Validator::make($req->all(), [
+            'program_name' => 'sometimes|string|max:255',
+            'program_day' => 'sometimes|integer|max:4',
+            'program_start_time' => 'sometimes|string|max:2359',
+            'program_end_time' => 'sometimes|string|max:2359',
+        ]);
 
-        // return $req;
-        // $program = new Program();
-        // $program->program_uid = (string) Str::uuid();
-        // foreach ($req->all() as $key => $value) {
-        //     if ($key != 'submit' && $key != '_token' && strlen($value) > 0) {
-        //         $program[$key] = $value;
-        //     }
-        // }
-
-        // try {
-        //     $savedProgram = $program->save();
-        //     return $savedProgram ? redirect()->route('pages.snseaEssentials')->with('message', 'Program Added Successfully') : redirect()->route('pages.snseaEssentials')->with('error', 'Something Went Wrong');
-        // } catch (\Illuminate\Database\QueryException $exception) {
-        //     return redirect()->route('pages.snseaEssentials')->with('error', $exception->errorInfo[2]);
-        // }
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $program = Program::where('program_uid', $uid)->first();
+            $program->update($validator->validated());
+            return $this->sendResponse($program, 'Program Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
     }
 
     public function deleteProgram(Request $req)

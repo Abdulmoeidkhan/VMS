@@ -12,7 +12,6 @@ class Group extends Model
 
     protected $fillable = [
         'name',
-        'display_name',
         'description',
     ];
 
@@ -21,9 +20,9 @@ class Group extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'id',
-    ];
+    // protected $hidden = [
+    //     'id',
+    // ];
 
     // Optionally, generate UUID automatically when creating a company
     protected static function booted()

@@ -13,7 +13,7 @@ class CountryController extends BaseApiController
     {
         $country = new Country();
         $country->name = $req->name;
-        $country->display_name = $req->display_name;
+        $country->description = $req->description;
         $countrySaved = $country->save();
         try {
             $countrySaved = $country->save();
@@ -33,7 +33,7 @@ class CountryController extends BaseApiController
     {
         $validator = Validator::make($req->all(), [
             'name' => 'required|string|max:255',
-            'display_name' => 'required|string|max:255',
+            'description' => 'sometimes|string|max:255',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());

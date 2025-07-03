@@ -27,12 +27,6 @@
                                         </label>
                                         <input type="text" name='name' class="form-control" id="name">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="display_name" class="col-form-label">
-                                            Display Name
-                                        </label>
-                                        <input type="text" name='display_name' class="form-control" id="display_name">
-                                    </div>
                                     <br />
                                     <div class="form-group">
                                         <button type="button" class="btn btn-secondary"
@@ -54,7 +48,7 @@
 <div class="row">
     <div class="d-flex justify-content-center">
         <livewire:essential-modal-form-component wire:id="{{rand()}}" wire:key="{{rand()}}" modalId="add_country"
-            name="Country" colorClass="success" :className="$modelClass=App\Models\Country::class"
+            name="Country" colorClass="success" :className="$modelClass=App\Models\Country::class" tableId="table1"
             btnName="Add Country" />
 
     </div>
@@ -77,8 +71,6 @@
                             <th data-filter-control="input" data-field="SNO" data-formatter="operateSerial"
                                 data-sortable="true">S.No.</th>
                             <th data-filter-control="input" data-field="name" data-sortable="true">Country Name</th>
-                            <th data-filter-control="input" data-field="display_name" data-sortable="true">Country
-                                Display Name</th>
                             <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
@@ -93,7 +85,8 @@
 <div class="row">
     <div class="d-flex justify-content-center">
         <livewire:essential-modal-form-component wire:id="{{rand()}}" wire:key="{{rand()}}" modalId="add_city"
-            name="City" colorClass="primary" :className="$modelClass=App\Models\Cities::class" btnName="Add City" />
+            tableId="table2" name="City" colorClass="primary" :className="$modelClass=App\Models\Cities::class"
+            btnName="Add City" />
     </div>
 </div>
 @endif
@@ -114,8 +107,6 @@
                             <th data-filter-control="input" data-field="SNO" data-formatter="operateSerial"
                                 data-sortable="true">S.No.</th>
                             <th data-filter-control="input" data-field="name" data-sortable="true">City Name</th>
-                            <th data-filter-control="input" data-field="display_name" data-sortable="true">City Display
-                                Name</th>
                             <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
@@ -129,7 +120,8 @@
 <div class="row">
     <div class="d-flex justify-content-center">
         <livewire:essential-modal-form-component wire:id="{{rand()}}" wire:key="{{rand()}}" modalId="add_group"
-            name="Group" colorClass="indigo" :className="$modelClass=App\Models\Group::class" btnName="Add Group" />
+            tableId="table3" name="Group" colorClass="indigo" :className="$modelClass=App\Models\Group::class"
+            btnName="Add Group" />
     </div>
 </div>
 @endif
@@ -150,8 +142,6 @@
                             <th data-filter-control="input" data-field="SNO" data-formatter="operateSerial"
                                 data-sortable="true">S.No.</th>
                             <th data-filter-control="input" data-field="name" data-sortable="true">Group Name</th>
-                            <th data-filter-control="input" data-field="display_name" data-sortable="true">Group Display
-                                Name</th>
                             <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
                                 Actions</th>
                         </tr>
@@ -161,6 +151,42 @@
         </div>
     </div>
 </div>
+@if(session()->get('user')->roles[0]->name === "admin" || session()->get('user')->roles[0]->name === "snseaAdmin")
+<div class="row">
+    <div class="d-flex justify-content-center">
+        <livewire:essential-modal-form-component wire:id="{{rand()}}" wire:key="{{rand()}}" modalId="add_staff_category"
+            name="Staff Category" colorClass="info" :className="$modelClass=App\Models\StaffCategory::class"
+            tableId="table7" btnName="Add Staff Category" />
+    </div>
+</div>
+<br />
+@endif
+<div class="row">
+    <div class="card w-100">
+        <div class="card-body p-4">
+            <h5 class="card-title fw-semibold mb-4">Staff Category</h5>
+            <div class="table-responsive">
+                <table id="table7" data-filter-control="true" data-filter-control-multiple-search="true"
+                    data-filter-control-multiple-search-delimiter="," data-show-refresh="true"
+                    data-show-pagination-switch="true" data-click-to-select="true" data-toggle="table"
+                    data-url="{{route('api.staffCategory.index')}}" data-pagination="true" data-show-toggle="true"
+                    data-show-export="true" data-show-columns="true" data-show-columns-toggle-all="true"
+                    data-page-list="[10, 25, 50, 100,200]">
+                    <thead>
+                        <tr>
+                            <th data-filter-control="input" data-field="SNO" data-formatter="operateSerial"
+                                data-sortable="true">S.No.</th>
+                            <th data-filter-control="input" data-field="name" data-sortable="true">Staff Category</th>
+                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 @if(session()->get('user')->roles[0]->name === "admin" || session()->get('user')->roles[0]->name === "snseaAdmin")
 <div class="row">
     <div class="d-flex justify-content-center">
@@ -193,7 +219,9 @@
                             <th data-filter-control="input" data-field="program_end_time" data-sortable="true">Program
                                 End Time</th>
                             <th data-filter-control="input" data-field="program_uid" data-sortable="true"
-                                data-formatter="operateFormatter" data-events="operatePlans">Actions</th>
+                                data-formatter="operateProgram">Actions</th>
+                            {{-- <th data-filter-control="input" data-field="program_uid" data-sortable="true"
+                                data-formatter="operateFormatter" data-events="operateProgram">Actions</th> --}}
                         </tr>
                     </thead>
                 </table>
@@ -234,8 +262,11 @@
                             <th data-filter-control="input" data-field="coupon_validity_end_time" data-sortable="true">
                                 Coupon Validity Time</th>
                             <th data-filter-control="input" data-field="coupon_uid" data-sortable="true"
-                                data-formatter="operateFormatter" data-events="operateCoupons">Actions
+                                data-formatter="operateCoupon" >Actions
                             </th>
+                            {{-- <th data-filter-control="input" data-field="coupon_uid" data-sortable="true"
+                                data-formatter="operateFormatter" data-events="operateCoupons">Actions
+                            </th> --}}
                         </tr>
                     </thead>
                 </table>
@@ -282,47 +313,6 @@
         </div>
     </div>
 </div>
-
-@if(session()->get('user')->roles[0]->name === "admin" || session()->get('user')->roles[0]->name === "snseaAdmin")
-<div class="row">
-    <div class="d-flex justify-content-center">
-        <livewire:essential-modal-form-component wire:id="{{rand()}}" wire:key="{{rand()}}" modalId="add_staff_category"
-            name="Staff Category" colorClass="info" :className="$modelClass=App\Models\StaffCategory::class"
-            btnName="Add Staff Category" />
-    </div>
-</div>
-<br />
-@endif
-<div class="row">
-    <div class="card w-100">
-        <div class="card-body p-4">
-            <h5 class="card-title fw-semibold mb-4">Staff Category</h5>
-            <div class="table-responsive">
-                <table id="table7" data-filter-control="true" data-filter-control-multiple-search="true"
-                    data-filter-control-multiple-search-delimiter="," data-show-refresh="true"
-                    data-show-pagination-switch="true" data-click-to-select="true" data-toggle="table"
-                    data-url="{{route('api.staffCategory.index')}}" data-pagination="true" data-show-toggle="true"
-                    data-show-export="true" data-show-columns="true" data-show-columns-toggle-all="true"
-                    data-page-list="[10, 25, 50, 100,200]">
-                    <thead>
-                        <tr>
-                            <th data-filter-control="input" data-field="SNO" data-formatter="operateSerial"
-                                data-sortable="true">S.No.</th>
-                            <th data-filter-control="input" data-field="name" data-sortable="true">Staff Category</th>
-                            <th data-filter-control="input" data-field="display_name" data-sortable="true">Staff
-                                Category
-                                Display Name</th>
-                            <th data-filter-control="input" data-field="operate" data-formatter="operateEdit">
-                                Actions</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<br />
-
 
 
 @include("layouts.tableFoot")
@@ -381,38 +371,39 @@
     }
 
 
-    window.operatePlans = {
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteProgram")}}', {
-                id: value
-            }).then(
-                function(response) {
-                    console.log(response)
-                    showDeleteToast(response.data.message)
-                }).catch(function(error) {
-                console.log(error);
-            })
-            // $table4.bootstrapTable('refresh');
-        }
-    }
-    window.operateCoupons = {
-        [`click .remove`]: (e, value, row) => {
-            axios.post('{{route("request.deleteCoupon")}}', {
-                id: value
-            }, {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(
-                function(response) {
-                    console.log(response)
-                    showDeleteToast(response.data.message)
-                }).catch(function(error) {
-                console.log(error);
-            })
-            // $table5.bootstrapTable('refresh');
-        }
-    }
+    // window.operateProgram = {
+    //     [`click .remove`]: (e, value, row) => {
+    //         axios.post('{{route("request.deleteProgram")}}', {
+    //             id: value
+    //         }).then(
+    //             function(response) {
+    //                 console.log(response)
+    //                 showDeleteToast(response.data.message)
+    //             }).catch(function(error) {
+    //             console.log(error);
+    //         })
+    //         // $table4.bootstrapTable('refresh');
+    //     }
+    // }
+
+    // window.operateCoupons = {
+    //     [`click .remove`]: (e, value, row) => {
+    //         axios.post('{{route("request.deleteCoupon")}}', {
+    //             id: value
+    //         }, {
+    //             headers: {
+    //                 'Accept': 'application/json'
+    //             }
+    //         }).then(
+    //             function(response) {
+    //                 console.log(response)
+    //                 showDeleteToast(response.data.message)
+    //             }).catch(function(error) {
+    //             console.log(error);
+    //         })
+    //         // $table5.bootstrapTable('refresh');
+    //     }
+    // }
 
     window.operateInvitees = {
         [`click .remove`]: (e, value, row) => {
@@ -455,6 +446,10 @@
         }
     }
 
+    function refreshTable(tableId){
+        $(`#${tableId}`).bootstrapTable('refresh');
+    }
+
     function operateSerial(value, row, index) {
         return index + 1;
     }
@@ -484,12 +479,19 @@
         });
 
         const lengthOfForm = Object.keys(formValues).length; // Length Of Values getting from from 
-        axios.post(route, formValues, {
-                headers: {
+        // axios.post(route, formValues, {
+        //         headers: {
+        //             'Accept': 'application/json'
+        //         }
+        //     })
+        axios({
+            method:tableId == 'table7'?'put':'post',
+            url: route,
+            data: formValues,
+            headers: {
                     'Accept': 'application/json'
                 }
-            })
-            .then(response => {
+        }).then(response => {
                 console.log(response);
                 document.getElementById('alert-comp').innerHTML = `
                 <div class="alert alert-${response.data.success ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
@@ -510,7 +512,7 @@
             })
             .finally(() => {
                 console.log('Request processing completed.');
-                $(`#${tableId}`).bootstrapTable('refresh');
+                refreshTable(tableId);
             });
     }
     // Axios Request For EDIT End
@@ -529,10 +531,10 @@
                 route = '{{route("request.updateCity", ":id")}}'.replace(':id', id);
                 break;
             case 'table3':
-                route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
+                route = '{{route("request.updateGroup", ":id")}}'.replace(':id', id);
                 break;
             case 'table7':
-                route = '{{route("request.updateCountry", ":id")}}'.replace(':id', id);
+                route = '{{route("api.staffCategory.update", ":id")}}'.replace(':id', id);
                 break;
             default:
                 break;
@@ -542,7 +544,6 @@
         // console.log(e.closest('table').id);
         // Set values
         document.getElementById('name').value = name;
-        document.getElementById('display_name').value = display_name;
 
         // Show modal
         const editModal = new bootstrap.Modal(document.getElementById('edit-modal'));
@@ -592,9 +593,16 @@
 
 
 
-    function operateFormatter(value, row, index) {
+    function operateProgram(value, row, index) {
+        route = '{{route("pages.addProgramPages", ":id")}}'.replace(':id', value);
         return [
-            `<a class='remove btn btn-badar' href='javascript:void(0)' title='Remove'><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></a>`
+            `<a href="${route}" class="btn btn-outline-success"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></a>`
+        ]
+    }
+    function operateCoupon(value, row, index) {
+        route = '{{route("pages.addCouponPages", ":id")}}'.replace(':id', value);
+        return [
+            `<a href="${route}" class="btn btn-outline-success"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></a>`
         ]
     }
 

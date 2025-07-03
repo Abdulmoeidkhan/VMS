@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->uuid('group_uid')->unique();
-            $table->string('display_name')->unique();
+            // $table->string('display_name')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
         });

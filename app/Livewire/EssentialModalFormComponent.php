@@ -14,19 +14,20 @@ class EssentialModalFormComponent extends Component
 
     public $name = '';
     public $field1 = '';
-    public $field2 = '';
     public $className = '';
     public $colorClass = '';
     public $btnName = '';
     public $modalId = '';
+    public $tableId = '';
 
-    public function mount($modalId, $name, $className, $colorClass, $btnName)
+    public function mount($modalId, $name, $className, $colorClass, $btnName, $tableId)
     {
         $this->modalId = $modalId;
         $this->name = $name;
         $this->className = $className;
-        $this->$colorClass = $colorClass;
-        $this->$btnName = $btnName;
+        $this->colorClass = $colorClass;
+        $this->btnName = $btnName;
+        $this->tableId = $tableId;
     }
 
 
@@ -50,12 +51,11 @@ class EssentialModalFormComponent extends Component
     {
         $field = new $this->className;
         $field->name = $this->field1;
-        $field->display_name = $this->field2;
         $fieldSaved = $field->save();
         if ($fieldSaved) {
-            $this->js("alert('Updated!')");
+            $this->js("refreshTable('" . $this->tableId . "')");
             $this->dispatch('essential-updated')->self();
-            $this->pull(['field1', 'field2']);
+            $this->pull(['field1']);
         } else {
             $this->js("alert('SomeThing Went Wrong!')");
         }

@@ -17,8 +17,13 @@ class CouponsController extends BaseApiController
         return $coupon;
     }
 
-    public function addCouponPages()
+    public function addCouponPages(Request $req, ?string $uid)
     {
+        if (isset($uid)) {
+            $coupon= Coupons::where('coupon_uid', $uid)->first();
+            // return $program;
+            return view("pages.addCoupon", ['coupon' => $coupon]);
+        }
         return view("pages.addCoupon");
     }
 
@@ -62,6 +67,31 @@ class CouponsController extends BaseApiController
         }
     }
 
+    public function updateCoupon(Request $req, string $uid)
+    {
+        $validator = Validator::make($req->all(), [
+            'coupon_name' => 'sometimes|string|max:255',
+            'coupon_day' => 'sometimes|integer|max:4',
+            'coupon_validity_start_time' => 'sometimes|string|max:2359',
+            'coupon_validity_end_time' => 'sometimes|string|max:2359',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $coupon = Coupons::where('coupon_uid', $uid)->first();
+            $coupon->update($validator->validated());
+            return $this->sendResponse($coupon, 'Coupon Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

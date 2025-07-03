@@ -13,7 +13,7 @@ class GroupController extends BaseApiController
     {
         $groups = new Group();
         $groups->name = $req->name;
-        $groups->display_name = $req->display_name;
+        $groups->description = $req->description;
         $groupsSaved = $groups->save();
         try {
             $groupsSaved = $groups->save();
@@ -29,7 +29,28 @@ class GroupController extends BaseApiController
         // return response()->json($countries, 200);
         return $groups;
     }
-    public function update(Request $req) {}
+    public function update(Request $req, $id)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'sometimes|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $group = Group::where('id', $id)->first();
+            $group->update($validator->validated());
+            return $this->sendResponse($group, 'Group Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
+    }
     public function delete(Request $req)
     {
         // return $req;

@@ -53,12 +53,14 @@ Route::group(['auth' => 'sanctum'], function () {
 
     // Program API Start
     Route::post('/addProgram', [ProgramController::class, 'addProgram'])->name('request.addProgram');
+    Route::post('/updateProgram/{uid}', [ProgramController::class, 'updateProgram'])->name('request.updateProgram');
     Route::get('/programsData', [ProgramController::class, 'programsData'])->name('request.programsData');
     Route::post('/deleteProgram', [ProgramController::class, 'deleteProgram'])->name('request.deleteProgram');
     // Program API End
 
     // Coupon API Start
     Route::post('/addCoupon', [CouponsController::class, 'addCoupon'])->name('request.addCoupon');
+    Route::post('/updateCoupon/{uid}', [CouponsController::class, 'updateCoupon'])->name('request.updateCoupon');
     Route::get('/couponsData', [CouponsController::class, 'couponsData'])->name('request.couponsData');
     Route::post('/deleteCoupon', [CouponsController::class, 'deleteCoupon'])->name('request.deleteCoupon');
     // Coupon API End
@@ -79,6 +81,7 @@ Route::group(['auth' => 'sanctum'], function () {
 
     // Group API Start
     Route::post('/addGroup', [GroupController::class, 'create'])->name('request.addGroup');
+    Route::post('/updateGroup/{uid}', [GroupController::class, 'update'])->name('request.updateGroup');
     Route::get('/groupData', [GroupController::class, 'read'])->name('request.groupData');
     Route::post('/deleteGroup', [GroupController::class, 'delete'])->name('request.deleteGroup');
     // Group API End

@@ -49,7 +49,28 @@ class StaffCategoryController extends BaseApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $req, string $id) {}
+    public function update(Request $req, string $id)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'sometimes|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $staffCategory = StaffCategory::where('id', $id)->first();
+            $staffCategory->update($validator->validated());
+            return $this->sendResponse($staffCategory, 'Staff Category Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

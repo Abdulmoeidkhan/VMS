@@ -13,7 +13,7 @@ class CitiesController extends BaseApiController
     {
         $cities = new Cities();
         $cities->name = $req->name;
-        $cities->display_name = $req->display_name;
+        $cities->description = $req->description;
         $citiesSaved = $cities->save();
         try {
             $citiesSaved = $cities->save();
@@ -33,7 +33,7 @@ class CitiesController extends BaseApiController
     {
         $validator = Validator::make($req->all(), [
             'name' => 'required|string|max:255',
-            'display_name' => 'required|string|max:255',
+            'description' => 'sometimes|string|max:255',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());

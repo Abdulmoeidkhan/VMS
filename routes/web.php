@@ -202,9 +202,9 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/snseaProgram', [ProgramController::class, 'render'])->name('pages.programs');
 
-        Route::get('/addProgramPages', [ProgramController::class, 'addProgramPages'])->name('pages.addProgramPages');
+        Route::get('/addProgramPages/{uid?}', [ProgramController::class, 'addProgramPages'])->name('pages.addProgramPages');
 
-        Route::get('/addCouponPages', [CouponsController::class, 'addCouponPages'])->name('pages.addCouponPages');
+        Route::get('/addCouponPages/{uid?}', [CouponsController::class, 'addCouponPages'])->name('pages.addCouponPages');
 
         Route::get('/snseaEssentials', [EssentialsController::class, 'render'])->name('pages.essentials');
 
