@@ -244,7 +244,7 @@
             <h5 class="card-title fw-semibold mb-4">Coupon</h5>
             <div class="table-responsive">
                 <table id="table5" data-filter-control="true" data-filter-control-multiple-search="true"
-                    data-filter-control-multiple-search-delimiter="," data-virtual-scroll="true"
+                    datInviteesa-filter-control-multiple-search-delimiter="," data-virtual-scroll="true"
                     data-show-pagination-switch="true" data-click-to-select="true" data-toggle="table"
                     data-show-export="true" data-show-columns="true" data-show-columns-toggle-all="true"
                     data-url="{{route('request.couponsData')}}" data-pagination="true" data-show-toggle="true"
@@ -304,8 +304,11 @@
                             <th data-filter-control="input" data-field="designation" data-sortable="true">Invitees
                                 designation</th>
                             <th data-filter-control="input" data-field="uid" data-sortable="true"
-                                data-formatter="operateFormatter" data-events="operateInvitees">Actions
+                                data-formatter="operateInvitees">Actions
                             </th>
+                            <!-- <th data-filter-control="input" data-field="uid" data-sortable="true"
+                                data-formatter="operateFormatter" data-events="operateInvitees">Actions
+                            </th> -->
                         </tr>
                     </thead>
                 </table>
@@ -405,25 +408,25 @@
     //     }
     // }
 
-    window.operateInvitees = {
-        [`click .remove`]: (e, value, row) => {
-            let route = '{{route("api.invitees.destroy", ":id")}}'.replace(':id', row.uid);
-            axios.delete(route, {
-                id: value
-            }, {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(
-                function(response) {
-                    console.log(response)
-                    showDeleteToast(response.data.message)
-                }).catch(function(error) {
-                console.log(error);
-            })
-            // $table5.bootstrapTable('refresh');
-        }
-    }
+    // window.operateInvitees = {
+    //     [`click .remove`]: (e, value, row) => {
+    //         let route = '{{route("api.invitees.destroy", ":id")}}'.replace(':id', row.uid);
+    //         axios.delete(route, {
+    //             id: value
+    //         }, {
+    //             headers: {
+    //                 'Accept': 'application/json'
+    //             }
+    //         }).then(
+    //             function(response) {
+    //                 console.log(response)
+    //                 showDeleteToast(response.data.message)
+    //             }).catch(function(error) {
+    //             console.log(error);
+    //         })
+    //         // $table5.bootstrapTable('refresh');
+    //     }
+    // }
 
     window.operateStaffCat = {
         [`click .remove`]: (e, value, row) => {
@@ -610,6 +613,12 @@
         // console.log(row);
         return [
             `<button type="button" class="btn btn-outline-success" onclick="openEditModal('${row.id}','${row.name}','${row.display_name}',this)"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></button>`
+        ]
+    }
+    function operateInvitees(value, row, index) {
+        route = '{{route("invitees.edit", ":id")}}'.replace(':id', value);
+        return [
+            `<a href="${route}" class="btn btn-outline-success"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></a>`
         ]
     }
 

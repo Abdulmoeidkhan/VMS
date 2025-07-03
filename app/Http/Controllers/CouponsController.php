@@ -17,7 +17,7 @@ class CouponsController extends BaseApiController
         return $coupon;
     }
 
-    public function addCouponPages(Request $req, ?string $uid)
+    public function addCouponPages(Request $req, ?string $uid = null)
     {
         if (isset($uid)) {
             $coupon= Coupons::where('coupon_uid', $uid)->first();

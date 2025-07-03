@@ -65,17 +65,40 @@ class InviteesController extends BaseApiController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Invitees $invitees)
+    public function edit(Request $request, ?string $id = null)
     {
-        //
+        // return $id;
+        $invitee = Invitees::where('status', 1)->where('uid', $id)->with('rank')->first();
+        // return $invitee;
+        return view('pages.addInvitees', ['invitee' => $invitee]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Invitees $invitees)
+    public function update(Request $req, ?string $id = null)
     {
-        //
+         $validator = Validator::make($req->all(), [
+            'name' => 'sometimes|string|max:255',
+            'ranks_uid' => 'sometimes|string|max:36',
+            'designation' => 'sometimes|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        try {
+            $invitee = Invitees::where('uid', $id)->first();
+            $invitee->update($validator->validated());
+            return $this->sendResponse($invitee, 'Invitee Updated successfully.');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            // Handle specific database errors
+            if ($ex->getCode() == 23000) { // Duplicate entry error (unique constraint violation)
+                return $this->sendError('Database Error: Something Went Wrong.', $ex->getMessage(), 422);
+            }
+            // General database error
+            return $this->sendError('Database Error.', $ex->getMessage());
+        }
     }
 
     /**

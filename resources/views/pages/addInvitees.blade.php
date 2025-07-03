@@ -17,24 +17,24 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">Invitee Name *</label>
                                 <input name="name" type="text" class="form-control" id="name"
-                                    placeholder="Invitee Name" value="{{isset($invitee) ? $invitee->name : ''}}"/>
+                                    placeholder="Invitee Name" value="{{isset($invitee) ? $invitee->name : ''}}" />
                             </div>
                             <div class="mb-3">
                                 <label for="ranks_uid" class="form-label">Invitee Rank *</label>
                                 <select name="ranks_uid" id="ranks_uid" class="form-select" required>
                                     <option value="" disabled hidden> Select Rank </option>
                                     @foreach (\App\Models\Rank::all() as $key=>$rank)
-                                    <option value="{{$rank->ranks_uid}}" {{isset($invitee)&& $guest->rank
-                                        == $rank->ranks_uid ? 'selected' : ''}} > {{$rank->ranks_name}} </option>
+                                    <option value="{{$rank->ranks_uid}}" {{isset($invitee)&& $invitee->rank['ranks_uid']
+                                        == $rank->ranks_uid ? 'selected' : ''}}> {{$rank->ranks_name}} </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="designation" class="form-label">Invitee Designation *</label>
                                 <input name="designation" type="text" class="form-control" id="designation"
-                                    placeholder="Invitee Designation" value="{{isset($invitee) ? $invitee->designation : ''}}"/>
+                                    placeholder="Invitee Designation" value="{{isset($invitee) ? $invitee->designation : ''}}" />
                             </div>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add Invitee</button>
+                            <button type="submit" class="btn btn-{{isset($invitee) ? 'success' : 'primary'}}" data-bs-dismiss="modal">{{isset($invitee) ? 'Update' : 'Add'}} Invitee</button>
                         </fieldset>
                     </form>
                 </div>
@@ -45,7 +45,8 @@
 <script>
     const sendingPostRequest = (event, route) => {
         event.preventDefault();
-                const formData = new FormData(event.target);
+        const methodType = '{{isset($invitee) ? "put":"post"}}'; // Determine the method type based on the presence of $invitee
+        const formData = new FormData(event.target);
         const formValues = {};
 
         // Process each entry in FormData
@@ -66,31 +67,38 @@
 
         const lengthOfForm = Object.keys(formValues).length; // Length Of Values getting from from 
 
-    axios.post(route, formValues)
-        .then(response => {
-            console.log(response);
-            document.getElementById('alert-comp').innerHTML = `
+        // axios.post(route, formValues)
+        axios({
+                method: methodType,
+                url: route,
+                data: formValues,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(response => {
+                console.log(response);
+                document.getElementById('alert-comp').innerHTML = `
                 <div class="alert alert-${response.data.success ? 'success' : 'danger'} alert-dismissible fade show" role="alert">
                     <strong>${response.data.message}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`;
 
-                if (response.data.success) {
-            event.target.reset();
-        }
-        })
-        .catch(error => {
-            console.log(error);
-            document.getElementById('alert-comp').innerHTML = `
+                if (response.data.success && methodType !== 'put') {
+                    event.target.reset();
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                document.getElementById('alert-comp').innerHTML = `
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>An error occurred while processing your request.</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>`;
-        })
-        .finally(() => {
-            console.log('Request processing completed.');
-        });
-}
+            })
+            .finally(() => {
+                console.log('Request processing completed.');
+            });
+    }
 </script>
 @endsection
 @endauth
