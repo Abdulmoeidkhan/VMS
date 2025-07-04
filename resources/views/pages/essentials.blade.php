@@ -522,7 +522,7 @@
 
 
     // Modal for editing Start 
-    function openEditModal(id, name, display_name, e) {
+    function openEditModal(id, name, e) {
         let route = '';
         let tableId = e.closest('table').id;
 
@@ -612,7 +612,7 @@
     function operateEdit(value, row, index) {
         // console.log(row);
         return [
-            `<button type="button" class="btn btn-outline-success" onclick="openEditModal('${row.id}','${row.name}','${row.display_name}',this)"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></button>`
+            `<button type="button" class="btn btn-outline-success" onclick="openEditModal('${row.id}','${row.name}',this)"><i class="ti ti-edit" style="font-size:22px; widht:24px; height:24px;"></i></button>`
         ]
     }
     function operateInvitees(value, row, index) {

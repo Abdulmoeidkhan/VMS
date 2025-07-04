@@ -24,7 +24,7 @@
             <div class="table-responsive">
                 <table id="table" data-filter-control="true" data-filter-control-multiple-search="true"
                     data-filter-control-multiple-search-delimiter="," data-virtual-scroll="true" data-flat="true"
-                    data-show-refresh="true" 
+                    data-show-refresh="true"
                     data-show-pagination-switch="true" data-click-to-select="true" data-toggle="table"
                     data-url="{{route('api.governmentOrganization.index')}}" data-pagination="true"
                     data-show-toggle="true" data-show-export="true" data-show-columns="true"
@@ -52,9 +52,9 @@
                             <th data-field="uid" data-formatter="operateEdit" data-force-hide="true"
                                 data-force-hide="true" data-print-ignore="true">
                                 Edit</th>
-                            <th data-field="uid" data-formatter="operateFormatter"
-                                data-events="operateOrganizationDelete">
+                            <th data-formatter="operateFormatter" data-events="operateOrganizationDelete">
                                 Delete</th>
+
                         </tr>
                     </thead>
                 </table>
@@ -67,10 +67,10 @@
 @include("layouts.tableFoot")
 <script>
     function showDeleteToast(message) {
-    // Create unique ID for the toast
-    const toastId = `toast-${Date.now()}`;
-    // Toast HTML
-    const toastHtml = `
+        // Create unique ID for the toast
+        const toastId = `toast-${Date.now()}`;
+        // Toast HTML
+        const toastHtml = `
         <div id="${toastId}" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
             <div class="d-flex">
                 <div class="toast-body">
@@ -80,73 +80,76 @@
             </div>
         </div>
     `;
-    // Append toast to container
-    const container = document.getElementById('toast-container');
-    container.innerHTML="";
-    container.insertAdjacentHTML('beforeend', toastHtml);
+        // Append toast to container
+        const container = document.getElementById('toast-container');
+        container.innerHTML = "";
+        container.insertAdjacentHTML('beforeend', toastHtml);
 
-    // Initialize and show the toast
-    const toastElement = document.getElementById(toastId);
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
+        // Initialize and show the toast
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
 
-    // Remove toast from DOM after hidden
-    toastElement.addEventListener('hidden.bs.toast', () => {
-        toastElement.remove();
-    });
+        // Remove toast from DOM after hidden
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
+        });
     }
 
     const $table = $('#table');
-    function operateFormatter (value, row, index) {
-        return[
-        `<a class='remove btn btn-badar' href='javascript:void(0)' title='Remove'><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg></a>`
-      ]
+
+    function operateFormatter() {
+        return [
+            '<a class="remove btn btn-badar" href="javascript:void(0)" title="Remove">',
+            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>',
+            '</a>'
+        ].join('');
     }
 
-    window.operateOrganizationDelete={
-          [`click .remove`]: (e, value, row) => {
-            // console.log(row)
+    window.operateOrganizationDelete = {
+        ['click .remove']: function(e, value, row) {
+            console.log(row)
             const url = "{{ route('api.governmentOrganization.destroy', ':id') }}".replace(':id', row.uid);
             axios.delete(url, {
-                    id:[row.uid]
-                }).then(
-                    function(response) {
-                        console.log(response)
-                        showDeleteToast(response.data.message)
-                    }).catch(function(error) {
-                        console.log(error);
-                    })
+                id: [row.uid]
+            }).then(
+                function(response) {
+                    console.log(response)
+                    showDeleteToast(response.data.message)
+                }).catch(function(error) {
+                console.log(error);
+            })
             $table.bootstrapTable('refresh');
+
         }
     }
 
-        function operateEdit(value, row, index) {
-            let route= '{{route("governmentOrganization.edit", ":id")}}'.replace(':id', row.uid);
-            return [
-                '<div class="left">',
-                '<a class="btn btn-success" href="'+route+'">',
-                '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>',
-                '</a>',
-                '</div>'
-            ].join('')
-        }
+    function operateEdit(value, row, index) {
+        let route = '{{route("governmentOrganization.edit", ":id")}}'.replace(':id', row.uid);
+        return [
+            '<div class="left">',
+            '<a class="btn btn-success" href="' + route + '">',
+            '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>',
+            '</a>',
+            '</div>'
+        ].join('')
+    }
 
-        function operateStaff(value, row, index) {
-            let route= '{{route("governmentStaff.index",["orgId"=>"id"])}}'.replace("id", row.uid);
-            return [
-                '<div class="left">',
-                '<a class="btn btn-primary" href="'+route+'">',
-                '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>',
-                '</a>',
-                '</div>'
-            ].join('')
-        }
+    function operateStaff(value, row, index) {
+        let route = '{{route("governmentStaff.index",["orgId"=>"id"])}}'.replace("id", row.uid);
+        return [
+            '<div class="left">',
+            '<a class="btn btn-primary" href="' + route + '">',
+            '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>',
+            '</a>',
+            '</div>'
+        ].join('')
+    }
 
 
     function operateSerial(value, row, index) {
         return index + 1;
     }
-
 </script>
 @endsection
 @endauth

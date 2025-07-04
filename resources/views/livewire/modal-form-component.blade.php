@@ -11,7 +11,7 @@
                         value="{{$categorys->$outPut}}" {{isset($oldData) ?
                         ($oldData==$categorys->$outPut ?
                         'selected' : '')
-                        : ''}}>{{$categorys->display_name}}
+                        : ''}}>{{$categorys->name}}
                     </option>
                     @endforeach
                 </select>

@@ -109,11 +109,11 @@
                                                 <option value="" selected disabled hidden> Select Country
                                                 </option>
                                                 @foreach (\App\Models\Country::all() as $country)
-                                                <option value="{{$country->display_name}}" {{isset($mediagroup->
+                                                <option value="{{$country->name}}" {{isset($mediagroup->
                                                     media_country) ? ($mediagroup->media_country ==
-                                                    $country->display_name ? 'selected' : '')
+                                                    $country->name ? 'selected' : '')
                                                     : ''}}>{{isset($mediagroup->media_country)
-                                                    ?$mediagroup->media_country:$country->display_name}}
+                                                    ?$mediagroup->media_country:$country->name}}
                                                 </option>
                                                 @endforeach
                                             </select>

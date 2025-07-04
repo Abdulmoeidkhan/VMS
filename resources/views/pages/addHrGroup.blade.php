@@ -105,11 +105,11 @@
                                                 <option value="" selected disabled hidden> Select Country
                                                 </option>
                                                 @foreach (\App\Models\Country::all() as $country)
-                                                <option value="{{$country->display_name}}" {{isset($hrGroups->
+                                                <option value="{{$country->name}}" {{isset($hrGroups->
                                                     hr_country) ? ($hrGroups->hr_country ==
-                                                    $country->display_name ? 'selected' : '')
+                                                    $country->name ? 'selected' : '')
                                                     : ''}}>{{isset($hrGroups->hr_country)
-                                                    ?$hrGroups->hr_country:$country->display_name}}
+                                                    ?$hrGroups->hr_country:$country->name}}
                                                 </option>
                                                 @endforeach
                                             </select>

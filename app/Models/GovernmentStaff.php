@@ -16,7 +16,7 @@ class GovernmentStaff extends Model
 
     protected $fillable = [
         'name',
-        'rank',
+        'ranks_uid',
         'designation',
         'identity',
         'address',
@@ -44,7 +44,7 @@ class GovernmentStaff extends Model
 
     public function rank()
     {
-        return $this->belongsTo(Rank::class, 'rank', 'ranks_uid');
+        return $this->belongsTo(Rank::class, 'ranks_uid', 'ranks_uid');
     }
 
     public function invited_by()

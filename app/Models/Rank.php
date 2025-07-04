@@ -38,6 +38,6 @@ class Rank extends Model
 
     public function GovernmentStaff()
     {
-        return $this->hasMany(GovernmentStaff::class, 'ranks_uid', 'rank');
+        return $this->hasMany(GovernmentStaff::class, 'ranks_uid', 'ranks_uid');
     }
 }

@@ -102,7 +102,7 @@
                                     <select wire:model='attandeeCountry' class="form-control @error('attandeeCountry') is-invalid @enderror" id="attandeeCountry">
                                         <option value="" selected disabled hidden> Select Attandee Country</option>
                                         @foreach (\App\Models\Country::all() as $key=>$country)
-                                        <option value="{{$country->display_name}}">{{$country->display_name}}</option>
+                                        <option value="{{$country->name}}">{{$country->name}}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">

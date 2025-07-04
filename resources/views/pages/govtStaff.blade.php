@@ -42,7 +42,7 @@
                             <th data-filter-control="input" data-field="invited_by.name" data-sortable="true">Invited By</th>
                             <th data-filter-control="input" data-field="invitaion_no" data-sortable="true">Invitaion No.</th>
                             <th data-filter-control="input" data-field="address" data-sortable="true">Address</th>
-                            <th data-filter-control="input" data-field="country.display_name" data-sortable="true">Country</th>
+                            <th data-filter-control="input" data-field="country.name" data-sortable="true">Country</th>
                             <th data-filter-control="input" data-field="city" data-sortable="true">City</th>
                             <th data-filter-control="input" data-field="car_sticker_color" data-sortable="true">Car Sticker Color</th>
                             <th data-filter-control="input" data-field="car_sticker_no" data-sortable="true">Car Sticker Number</th>

@@ -63,9 +63,9 @@
                                                 @foreach (\App\Models\Group::all() as $group)
                                                 <option value="{{$group->id}}" {{isset($organization->
                                                     group) ? ($organization->group ==
-                                                    $group->display_name ? 'selected' : '')
+                                                    $group->name ? 'selected' : '')
                                                     : ''}}>{{isset($organization->group)
-                                                    ?$organization->group:$group->display_name}}
+                                                    ?$organization->group:$group->name}}
                                                 </option>
                                                 @endforeach
                                             </select>
@@ -113,9 +113,9 @@
                                                 @foreach (\App\Models\Country::all() as $country)
                                                 <option value="{{$country->id}}" {{isset($organization->
                                                     country) ? ($organization->country ==
-                                                    $country->display_name ? 'selected' : '')
+                                                    $country->name ? 'selected' : '')
                                                     : ''}}>{{isset($organization->country)
-                                                    ?$organization->country:$country->display_name}}
+                                                    ?$organization->country:$country->name}}
                                                 </option>
                                                 @endforeach
                                             </select>

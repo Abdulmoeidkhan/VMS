@@ -114,7 +114,7 @@
                                                 @foreach (\App\Models\JobType::all() as $jobType)
                                                 <option value="{{$jobType->display_name}}" {{isset($staff->
                                                     staff_job_type) ? ($staff->staff_job_type ==
-                                                    $country->display_name ? 'selected' : '')
+                                                    $country->name ? 'selected' : '')
                                                     : ''}}>{{isset($staff->staff_job_type)
                                                     ?$staff->staff_job_type:$jobType->display_name}}
                                                 </option>
